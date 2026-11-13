@@ -24,7 +24,7 @@
     [hidden] { display: none !important; }
     html { scroll-behavior: smooth; }
     body { margin: 0; background: var(--background); color: var(--ink); font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; }
-    body::before { content: ""; position: fixed; inset: 0; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'%3E%3Cg fill='%23008748' fill-opacity='.18' transform='translate(18 18) rotate(-18 12 12)'%3E%3Cellipse cx='8.5' cy='5' rx='2.5' ry='3'/%3E%3Cellipse cx='15.5' cy='5' rx='2.5' ry='3'/%3E%3Cellipse cx='4.5' cy='11' rx='2.2' ry='2.8'/%3E%3Cellipse cx='19.5' cy='11' rx='2.2' ry='2.8'/%3E%3Cpath d='M12 11c-3.6 0-6.5 2.6-6.5 6.2 0 2.2 2.2 4.1 6.5 4.1s6.5-1.9 6.5-4.1C18.5 13.6 15.6 11 12 11z'/%3E%3C/g%3E%3C/svg%3E"); background-size: 140px 140px; animation: float-paws 8s ease-in-out infinite alternate; }
+    body::before { content: ""; position: fixed; inset: 0; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 90'%3E%3Cg fill='%23008748' fill-opacity='.18' transform='translate(18 18) rotate(-18 12 12)'%3E%3Cellipse cx='8.5' cy='5' rx='2.5' ry='3'/%3E%3Cellipse cx='15.5' cy='5' rx='2.5' ry='3'/%3E%3Cellipse cx='4.5' cy='11' rx='2.2' ry='2.8'/%3E%3Cellipse cx='19.5' cy='11' rx='2.2' ry='2.8'/%3E%3Cpath d='M12 11c-3.6 0-6.5 2.6-6.5 6.2 0 2.2 2.2 4.1 6.5 4.1s6.5-1.9 6.5-4.1C18.5 13.6 15.6 11 12 11z'/%3E%3C/g%3E%3C/svg%3E"); background-size: 90px 90px; animation: float-paws 8s ease-in-out infinite alternate; }
     @keyframes float-paws { to { background-position: 0 -16px; } }
     @media (prefers-reduced-motion: reduce) { body::before { animation: none; } }
     main, footer.site-footer { position: relative; }
@@ -47,8 +47,14 @@
     .donation-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; max-width: 720px; align-items: start; }
     .cover-intro { position: relative; display: flex; flex-direction: column; justify-content: flex-start; min-height: 410px; overflow: hidden; padding: 32px; border-radius: 14px; background: #1a2e24; color: #fff; }
     .cover-intro::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.8)); }
-    .cover-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .cover-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .8s ease; }
+    .cover-image.is-active { opacity: 1; }
     .cover-intro h1, .intro-copy { position: relative; z-index: 1; }
+    .cover-intro h1 { padding-right: 44px; }
+    .cover-toggle { position: absolute; z-index: 2; top: 10px; right: 10px; display: grid; place-items: center; width: 44px; height: 44px; padding: 10px; border: 1px solid rgba(255,255,255,.55); border-radius: 50%; background: rgba(0,0,0,.45); color: #fff; cursor: pointer; }
+    .cover-toggle:hover { background: rgba(0,0,0,.7); }
+    .cover-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    @media (prefers-reduced-motion: reduce) { .cover-image { transition: none; } }
     h1 { margin: 0 0 10px; font-size: clamp(28px, 3.5vw, 40px); line-height: 1.12; letter-spacing: -.045em; }
     .intro-copy { max-width: 470px; margin: auto 0 0; color: #fff; font-size: 17px; line-height: 1.75; }
     .icon-pill { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; border-radius: 10px; background: var(--green-soft); color: var(--green-dark); }
@@ -97,6 +103,10 @@
     #qr-error { margin: 0 0 12px; font-size: 14px; }
     .btn-link { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 46px; padding: 10px 16px; border-radius: 9px; background: var(--green-dark); color: #fff; font-size: 14px; font-weight: 700; }
     .btn-link:hover { background: #006f3c; }
+    .btn-deuna { background: linear-gradient(135deg, #5c2d91, #3e1c66); }
+    .btn-deuna:hover { background: linear-gradient(135deg, #4b2378, #2f144f); }
+    .btn-paypal { background: #0070ba; }
+    .btn-paypal:hover { background: #005ea6; }
     .angel-section { margin-bottom: 22px; padding-bottom: 22px; border-bottom: 1px solid var(--border); }
     .method-step { margin: 0 0 12px; font-size: 16px; line-height: 1.3; letter-spacing: -.02em; }
     #paso-2 { scroll-margin-top: 85px; }
@@ -160,7 +170,13 @@
   <main id="inicio" class="donation-page">
     <div class="container donation-layout">
       <div class="cover-intro">
-        <img class="cover-image" src="https://i.ibb.co/jZqhZFPn/perros-callejeros-quito-el-comercio2.jpg" alt="Perros callejeros">
+        <img class="cover-image is-active" src="https://i.ibb.co/tfqKT1q/perro-comiendo-de-la-basura.jpg" alt="">
+        <img class="cover-image" src="https://i.ibb.co/5xBh7TPv/4671891.jpg" alt="">
+        <img class="cover-image" src="https://i.ibb.co/5hSmWGXF/images.jpg" alt="">
+        <img class="cover-image" src="https://i.ibb.co/VdwKmYL/perros-callejeros.jpg" alt="">
+        <button id="cover-toggle" class="cover-toggle" type="button" aria-label="Pausar cambio de fotos" title="Pausar cambio de fotos" hidden>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path id="cover-pause-icon" d="M8 5v14M16 5v14"></path><path id="cover-play-icon" d="M8 5l11 7-11 7z" hidden></path></svg>
+        </button>
         <h1>Tu ayuda deja <span>huella.</span></h1>
         <p class="intro-copy">Cada aporte se transforma en alimento, cuidado veterinario y bienestar para quienes más lo necesitan.</p>
       </div>
@@ -185,7 +201,7 @@
       </div>
     </section>
 
-    <h3 id="paso-2" class="method-step">Paso 2: Elige un método de pago</h3>
+    <h3 id="paso-2" class="method-step">Paso 2: Elige una vía de donación</h3>
     <p id="donation-status" class="status" role="status">Cargando métodos de donación…</p>
     <p id="copy-status" class="status" role="status"></p>
     <div class="accordion-group">
@@ -311,6 +327,53 @@
 
 
   <script>
+    const coverImages = Array.from(document.querySelectorAll('.cover-image'));
+    const coverToggle = document.getElementById('cover-toggle');
+    const coverMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let coverPlaying = !coverMotion.matches;
+    let coverTimer;
+
+    function showCover(image) {
+      coverImages.forEach(cover => cover.classList.toggle('is-active', cover === image));
+    }
+
+    function refreshCover() {
+      const available = coverImages.filter(image => image.complete && image.naturalWidth > 0);
+      const current = coverImages.find(image => image.classList.contains('is-active'));
+      if (current.complete && !current.naturalWidth && available.length) showCover(available[0]);
+      coverToggle.hidden = available.length < 2;
+      coverToggle.setAttribute('aria-label', coverPlaying ? 'Pausar cambio de fotos' : 'Reproducir fotos');
+      coverToggle.title = coverToggle.getAttribute('aria-label');
+      document.getElementById('cover-pause-icon').toggleAttribute('hidden', !coverPlaying);
+      document.getElementById('cover-play-icon').toggleAttribute('hidden', coverPlaying);
+      clearInterval(coverTimer);
+      if (coverPlaying && available.length > 1) {
+        coverTimer = setInterval(() => {
+          const currentIndex = available.findIndex(image => image.classList.contains('is-active'));
+          showCover(available[(currentIndex + 1) % available.length]);
+        }, 5000);
+      }
+    }
+
+    coverImages.forEach(image => {
+      image.addEventListener('load', refreshCover);
+      image.addEventListener('error', () => {
+        console.error('No se pudo cargar la imagen de portada:', image.src);
+        refreshCover();
+      });
+    });
+    coverToggle.addEventListener('click', () => {
+      coverPlaying = !coverPlaying;
+      refreshCover();
+    });
+    coverMotion.addEventListener('change', event => {
+      if (event.matches) {
+        coverPlaying = false;
+        refreshCover();
+      }
+    });
+    refreshCover();
+
     const shareButton = document.getElementById('share-donation');
     const shareLabel = document.getElementById('share-label');
     const shareIcon = document.getElementById('share-icon');
